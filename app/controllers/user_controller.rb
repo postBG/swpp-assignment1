@@ -31,29 +31,44 @@ class UserController < ApplicationController
   end
 
   def login
-    u = User.where(username: params[:username])[0]
-     
-    if u.password == params[:password]
-      u.count = u.count + 1
-      u.save
-      @response = ActiveSupport::JSON.encode({username: u.username, login_count: u.count})
-      session[:user_id] = u.username
-      session[:logged_in] = true
-      redirect_to "/welcome"
-    else
+    ul = User.where(username: params[:username])
+
+    if ul == []
       flash[:alert] = "Invalid username and password combination. Please try again."
       error_code = -4
       @response = ActiveSupport::JSON.encode({error_code: error_code})
       redirect_to "/main"
-    end   
+    else
+      u=ul[0]
+      if u.password == params[:password]
+	u.count = u.count + 1
+        u.save
+        @response = ActiveSupport::JSON.encode({username: u.username, login_count: u.count})
+        session[:user_id] = u.username
+	session[:logged_in] = true
+	redirect_to "/welcome"
+      else
+        flash[:alert] = "Invalid username and password combination. Please try again."
+        error_code = -4
+	@response = ActiveSupport::JSON.encode({error_code: error_code})
+	redirect_to "/main"
+      end   
+    end
   end
 
   def clearData
   end
 
   def welcome
-    u = User.where(session[:user_id])[0]
+    u = User.where(username: session[:user_id])[0]
     @username=u.username
     @count=u.count
+  end
+
+  def logout
+    session[:logged_in] = false
+    session[:user_id] = ''
+
+    redirect_to "/main"
   end
 end

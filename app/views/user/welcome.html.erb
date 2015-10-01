@@ -1,6 +1,14 @@
 <h1>Welcome <%= @username %></h1>
 <h1>You have logged in <%= @count %> times.</h1>
 
-<form>
-  <button>logout</button>
+<form id="logout" method="post">
+  <button type="button" onclick="logOutting()">Logout</button>
 </form>
+
+<script>
+function logOutting(){
+  var f = document.getElementById("logout");
+  f.action = "/logout";
+  f.submit();
+}
+</script>
