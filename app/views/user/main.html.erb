@@ -1,0 +1,51 @@
+<div style="background-color: #e9eaed;">
+  <h1>Please enter your credentials below</h1>
+  <form id="credentials" method="post">
+    Username: <input type="text" id="name" name="username"><br>
+    Password: <input type="password" id="pw" name="password"><br>
+    <button type="button" onclick="gotoLogin()">Login</button>
+    <button type="button" onclick="gotoSignup()">Add User</button>
+    <p id="nameerror"></p>
+    <p id="pwerror"></p>
+  </form>
+</div>
+
+<script>
+function gotoLogin(){
+  var f = document.getElementById("credentials");
+  f.action = "/login";
+  f.submit
+}
+
+function gotoSignup(){
+  var f = document.getElementById("credentials");
+  f.action = "/signup";
+  f.submit
+}
+
+function checkError(){
+  var pw_message="", name_message="";
+  var pw = document.getElementById("pw").value;
+  var name = document.getElementById("name").value;
+
+  if(isNaN(pw) || pw.length < 8 || pw.length > 20){
+    pw_message="The password should be 8~20 characters long. Please try again.";
+  }
+  if(isNaN(name) || name.length < 5 || name.length > 20){
+    name_message="The user name should be 5~20 characters long. Please try again.";
+  }
+
+  if(pw != ""){
+    document.getElementById("pwerror").innerHTML = pw_message;
+  }
+  if(name != ""){
+    document.getElementById("nameerror").innerHTML = name_message;
+  }
+}
+
+$(document).ready(function(){
+  $("#name").keyup(checkError);
+  $("#pw").keyup(checkError);
+});
+
+</script>
