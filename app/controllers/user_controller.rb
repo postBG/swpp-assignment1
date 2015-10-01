@@ -12,5 +12,7 @@ class UserController < ApplicationController
   end
 
   def welcome
+    @username="승민"
+    @count=1
   end
 end
