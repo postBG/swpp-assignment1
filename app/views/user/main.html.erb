@@ -1,3 +1,7 @@
+<div>
+  <h4><%= flash[:alert] %></h4>
+</div>
+
 <div style="background-color: #e9eaed;">
   <h1>Please enter your credentials below</h1>
   <form id="credentials" method="post">
@@ -15,13 +19,13 @@
 function gotoLogin(){
   var f = document.getElementById("credentials");
   f.action = "/login";
-  f.submit
+  f.submit();
 }
 
 function gotoSignup(){
   var f = document.getElementById("credentials");
   f.action = "/signup";
-  f.submit
+  f.submit();
 }
 
 function checkName(){
