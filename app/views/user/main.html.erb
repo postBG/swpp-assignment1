@@ -24,29 +24,45 @@ function gotoSignup(){
   f.submit
 }
 
-function checkError(){
-  var pw_message="", name_message="";
-  var pw = document.getElementById("pw").value;
+function checkName(){
+  var name_message="";
   var name = document.getElementById("name").value;
 
-  if(isNaN(pw) || pw.length < 8 || pw.length > 20){
-    pw_message="The password should be 8~20 characters long. Please try again.";
-  }
   if(isNaN(name) || name.length < 5 || name.length > 20){
     name_message="The user name should be 5~20 characters long. Please try again.";
   }
 
-  if(pw != ""){
-    document.getElementById("pwerror").innerHTML = pw_message;
-  }
   if(name != ""){
     document.getElementById("nameerror").innerHTML = name_message;
   }
 }
 
+function checkPassword(){
+  var pw_message="";
+  var pw = document.getElementById("pw").value;
+
+  if(isNaN(pw) || pw.length < 8 || pw.length > 20){
+    pw_message="The password should be 8~20 characters long. Please try again.";
+  }
+  
+  if(pw != ""){
+    document.getElementById("pwerror").innerHTML = pw_message;
+  }
+}
+
+function showOrHide(){
+  if($("#pw").attr("type")=="password"){
+    $("#pw").attr("type", "text");
+  }
+  else{
+    $("#pw").attr("type", "password");
+  }  
+}
+
 $(document).ready(function(){
-  $("#name").keyup(checkError);
-  $("#pw").keyup(checkError);
+  $("#name").keyup(checkName);
+  $("#pw").keyup(checkPassword);
+  $("#showHide").click(showOrHide);
 });
 
 </script>
