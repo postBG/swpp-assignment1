@@ -50,6 +50,9 @@ function showWelcome(xhr){
 }
 
 function showMain(){
+  document.getElementById("name").value = "";
+  document.getElementById("pw").value = "";
+  document.getElementById("showHide").checked = false;
   document.getElementById("welcome").style.display="none";
   document.getElementById("main").style.display="block";
 }
