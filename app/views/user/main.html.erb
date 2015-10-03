@@ -67,18 +67,6 @@ function ajaxCaller(displayfunc, url, method){
   xhr.send(makeinput());
 }
 
-function gotoLogin(){
-  var f = document.getElementById("main");
-  f.action = "/login";
-  f.submit();
-}
-
-function gotoSignup(){
-  var f = document.getElementById("main");
-  f.action = "/signup";
-  f.submit();
-}
-
 function checkName(){
   var name_message="";
   var name = document.getElementById("name").value;
@@ -115,6 +103,7 @@ function showOrHide(){
 }
 
 $(document).ready(function(){
+  showMain();
   $("#name").keyup(checkName);
   $("#pw").keyup(checkPassword);
   $("#showHide").click(showOrHide);
