@@ -12,8 +12,8 @@ class UserController < ApplicationController
       @response = ActiveSupport::JSON.encode({username: u.username, login_count: u.count})
       session[:user_id] = u.username
       session[:logged_in] = true
-      redirect_to "/welcome"
-      #render :json => @response
+      #redirect_to "/welcome"
+      render :json => @response
     else
       if(u.username.length < 5 || u.username.length > 20)
 	flash[:alert] = "The user name should be 5~20 characters long. Please try again."
@@ -26,8 +26,8 @@ class UserController < ApplicationController
         error_code = -3
       end
       @response = ActiveSupport::JSON.encode({error_code: error_code})
-      redirect_to "/main"
-      #render :json => @response
+      #redirect_to "/main"
+      render :json => @response
     end
 
   end
