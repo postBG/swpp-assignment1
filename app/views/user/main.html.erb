@@ -1,29 +1,80 @@
-<div>
-  <h4><%= flash[:alert] %></h4>
-</div>
+<form id="welcome">
+  <p id="welcome-name"></p><br>
+  <p id="welcome-count"></p>
+  <button type="button" onclick="showMain(1)">Log out</button>
+</form>
 
-<div style="background-color: #e9eaed;">
-  <h1>Please enter your credentials below</h1>
-  <form id="credentials" method="post">
-    Username: <input type="text" id="name" name="username"><br>
-    Show Password: <input type="checkbox" id="showHide">
-    Password: <input type="password" id="pw" name="password"><br>
-    <button type="button" onclick="gotoLogin()">Login</button>
-    <button type="button" onclick="gotoSignup()">Add User</button>
-    <p id="nameerror"></p>
-    <p id="pwerror"></p>
-  </form>
-</div>
+<form id="main">
+  <p id="msgbox">Please enter your credentials below</p>
+  Username: <input type="text" id="name" name="username"><br>
+  Show Password: <input type="checkbox" id="showHide">
+  Password: <input type="password" id="pw" name="password"><br>
+  <button type="button" onclick="ajaxCaller(showWelcome, 'login', 'POST')">Login</button>
+  <button type="button" onclick="ajaxCaller(showWelcome, 'signup', 'POST')">Add User</button>
+  <p id="nameerror"></p>
+  <p id="pwerror"></p>
+</form>
 
 <script>
+function userinfo(){
+  var name = document.getElementById("name").value;
+  var pw = document.getElementById("pw").value;
+  return "username="+name+"&password="+pw;
+}
+function showWelcome(xhr){
+  response = JSON.parse(xhr.responseText);
+
+  if(response['error_code'] == -4){
+    document.getElementById("msgbox").innerHTML = "Invalid username and password combination. Please try again.";
+    return;
+  }
+  else if(response['error_code'] == -3){
+    document.getElementById("msgbox").innerHTML = "This user name already exists. Please try again.";
+    return;
+  }
+  else if(response['error_code'] == -2){
+    document.getElementById("msgbox").innerHTML = "The password should be 8~20 characters long. Please try again.";
+    return;
+  }
+  else if(response['error_code'] == -1){
+    document.getElementById("msgbox").innerHTML = "The user name should be 5~20 characters long. Please try again.";
+    return;
+  }
+  else{
+    document.getElementById("welcome-name").innerHTML = response['username'];
+    document.getElementById("welcome-count").innerHTML = response['login_count'];
+  }
+
+  document.getElementById("welcome").style.display="block";
+  document.getElementById("main").style.display="none";
+}
+
+function showMain(xhr){
+  document.getElementById("welcome").style.display="none";
+  document.getElementById("main").style.display="block";
+}
+
+function ajaxCaller(displayfunc, url, method){
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function(){
+    if(xhr.readyState == 4 && xhr.status == 200){
+    //success communication then display
+      displayfunc(xhr);    
+    }
+  }
+  xhr.open(method, url, true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.send(userinfo());
+}
+
 function gotoLogin(){
-  var f = document.getElementById("credentials");
+  var f = document.getElementById("main");
   f.action = "/login";
   f.submit();
 }
 
 function gotoSignup(){
-  var f = document.getElementById("credentials");
+  var f = document.getElementById("main");
   f.action = "/signup";
   f.submit();
 }

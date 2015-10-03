@@ -12,21 +12,16 @@ class UserController < ApplicationController
       @response = ActiveSupport::JSON.encode({username: u.username, login_count: u.count})
       session[:user_id] = u.username
       session[:logged_in] = true
-      #redirect_to "/welcome"
       render :json => @response
     else
       if(u.username.length < 5 || u.username.length > 20)
-	flash[:alert] = "The user name should be 5~20 characters long. Please try again."
         error_code = -1
       elsif(u.password.length < 8 || u.password.length > 20)
-	flash[:alert] = "The password should be 8~20 characters long. Please try again."
         error_code = -2
       elsif(User.where(username: u.username)!= [])
-	flash[:alert] = "This user name already exists. Please try again."
         error_code = -3
       end
       @response = ActiveSupport::JSON.encode({error_code: error_code})
-      #redirect_to "/main"
       render :json => @response
     end
 
@@ -36,10 +31,9 @@ class UserController < ApplicationController
     ul = User.where(username: params[:username])
 
     if ul == []
-      flash[:alert] = "Invalid username and password combination. Please try again."
       error_code = -4
       @response = ActiveSupport::JSON.encode({error_code: error_code})
-      redirect_to "/main"
+      render :json => @response
     else
       u=ul[0]
       if u.password == params[:password]
@@ -48,12 +42,11 @@ class UserController < ApplicationController
         @response = ActiveSupport::JSON.encode({username: u.username, login_count: u.count})
         session[:user_id] = u.username
 	session[:logged_in] = true
-	redirect_to "/welcome"
+	render :json => @response
       else
-        flash[:alert] = "Invalid username and password combination. Please try again."
         error_code = -4
 	@response = ActiveSupport::JSON.encode({error_code: error_code})
-	redirect_to "/main"
+	render :json => @response
       end   
     end
   end
