@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'user#main'
   get 'main' => 'user#main'
   get 'welcome' => 'user#welcome'
   post 'signup' => 'user#signup'

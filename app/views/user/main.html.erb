@@ -1,7 +1,7 @@
 <form id="welcome">
-  <p id="welcome-name"></p><br>
-  <p id="welcome-count"></p>
-  <button type="button" onclick="showMain(1)">Log out</button>
+  <p>Welcome <span id="welcome-name"></span>.</p>
+  <p>You have logged in <span id="welcome-count"></span> times.</p>
+  <button type="button" onclick="showMain()">Log out</button>
 </form>
 
 <form id="main">
@@ -16,7 +16,7 @@
 </form>
 
 <script>
-function userinfo(){
+function makeinput(){
   var name = document.getElementById("name").value;
   var pw = document.getElementById("pw").value;
   return "username="+name+"&password="+pw;
@@ -49,7 +49,7 @@ function showWelcome(xhr){
   document.getElementById("main").style.display="none";
 }
 
-function showMain(xhr){
+function showMain(){
   document.getElementById("welcome").style.display="none";
   document.getElementById("main").style.display="block";
 }
@@ -64,7 +64,7 @@ function ajaxCaller(displayfunc, url, method){
   }
   xhr.open(method, url, true);
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.send(userinfo());
+  xhr.send(makeinput());
 }
 
 function gotoLogin(){
