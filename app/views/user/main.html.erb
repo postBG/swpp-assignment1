@@ -9,8 +9,8 @@
   Username: <input type="text" id="name" name="username"><br>
   Show Password: <input type="checkbox" id="showHide">
   Password: <input type="password" id="pw" name="password"><br>
-  <button type="button" onclick="ajaxCaller(showWelcome, 'login', 'POST')">Login</button>
-  <button type="button" onclick="ajaxCaller(showWelcome, 'signup', 'POST')">Add User</button>
+  <button id="login_btn" type="button" onclick="ajaxCaller(showWelcome, 'login', 'POST')">Login</button>
+  <button id="signup_btn" type="button" onclick="ajaxCaller(showWelcome, 'signup', 'POST')">Add User</button>
   <p id="nameerror"></p>
   <p id="pwerror"></p>
 </form>
